@@ -1,0 +1,111 @@
+/*
+ * dlcl.c
+ *
+ *  Created on: Oct 21, 2021
+ *      Author: rtrk
+ */
+
+#include "dlcl.h"
+#include <stddef.h>
+#include <stdio.h>
+#include <inttypes.h>
+#include <stdlib.h>	/* Zbog "warning: implicit declaration of function ‘malloc’" */
+
+void DoubleLinkedListCreate(DLL* list)
+{
+	list->head = (DLCLData*)NULL;
+	list->tail = (DLCLData*)NULL;
+}
+
+void DoubleLinkedListInsert(DLL* list, int_least8_t new_data)
+{
+	DLCLData* element  = malloc(sizeof(DLCLData));
+	element->data = new_data;
+	if (list->head == NULL)
+	{
+		list->head = element;
+		list->tail = element;
+		element->next = list->head;
+		element->prev = list->head;
+	}
+	else
+	{
+		list->tail->next = element;
+		element->prev = list->tail;
+		element->next = list->head;
+		list->head->prev = element;
+		list->tail = element;
+	}
+}
+
+void DoubleLinkedListPrint(const DLL* list)
+{
+	DLCLData* temp1;
+	temp1 = list->head;
+
+	if (list->head == NULL)
+	{
+		printf("Lista je prazna!\n");
+	}
+	else
+	{
+		while(temp1 != list->tail)
+		{
+			printf("%"PRIdLEAST8, temp1->data);
+			temp1 = temp1->next;
+		}
+		printf("%"PRIdLEAST8"\n", temp1->data);
+	}
+}
+
+void DoubleLinkedListDelete(const DLL* list, DLCLData* temp)
+{
+	temp->prev->next = temp->next;
+	temp->next->prev = temp->prev;
+
+	printf("%"PRIdLEAST8"\n", temp->data);
+	free(temp);
+}
+
+void FunctionPrintNthElement(DLL* list, int_least8_t x, int_least8_t y)
+{
+	DLCLData* temp2;
+	int_least8_t i;
+
+	while (list->head != NULL)
+	{
+		temp2 = list->head;
+		for (i = 0; i < x; i++)
+		{
+			temp2 = temp2->next;
+		}
+
+		DoubleLinkedListDelete(list, temp2);
+
+		y--;
+
+		if (y==0)
+		{
+			list->head = (DLCLData*)NULL;
+			break;
+		}
+
+		for (i = 0; i < x; i++)
+		{
+			temp2 = temp2->prev;
+		}
+
+		DoubleLinkedListDelete(list, temp2);
+
+		y--;
+
+		if(y == 0)
+		{
+			list->head = (DLCLData*)NULL;
+		}
+
+	}
+
+	printf("Svi elementi su izbaceni iz liste.\n");
+}
+
