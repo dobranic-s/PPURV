@@ -51,58 +51,79 @@ void DoubleLinkedListPrint(const DLL* list)
 	{
 		while(temp1 != list->tail)
 		{
-			printf("%"PRIdLEAST8, temp1->data);
+			printf("%"PRIdLEAST8"\n", temp1->data);
 			temp1 = temp1->next;
 		}
 		printf("%"PRIdLEAST8"\n", temp1->data);
 	}
 }
 
-void DoubleLinkedListDelete(const DLL* list, DLCLData* temp)
+void DoubleLinkedListDelete(DLL* list, DLCLData* temp)
 {
+	int_least8_t oneElement = 0;
+	if (list->head == list->tail) {
+		oneElement = 1;
+	}
 	temp->prev->next = temp->next;
 	temp->next->prev = temp->prev;
 
+	if (list->head == temp) {
+		list->head = temp->next;
+	}
+	if (list->tail == temp) {
+		list->tail = temp->prev;
+	}
+
 	printf("%"PRIdLEAST8"\n", temp->data);
 	free(temp);
+
+	if (oneElement == 1) {
+		list->head = NULL;
+		list->tail = NULL;
+	}
+
 }
 
-void FunctionPrintNthElement(DLL* list, int_least8_t x, int_least8_t y)
+void FunctionPrintNthElement(DLL* list, int_least8_t x)
 {
 	DLCLData* temp2;
+	DLCLData temp3;
 	int_least8_t i;
-
+	temp2 = list->head;
+	temp3 = *temp2;
 	while (list->head != NULL)
 	{
-		temp2 = list->head;
+		temp2 = &temp3;
 		for (i = 0; i < x; i++)
 		{
 			temp2 = temp2->next;
 		}
-
+		
+		temp3 = *temp2;
+		
 		DoubleLinkedListDelete(list, temp2);
 
-		y--;
+		/*y--;
 
 		if (y==0)
 		{
 			list->head = (DLCLData*)NULL;
 			break;
+		}*/
+		if (list->head == NULL) 
+		{
+			break;
 		}
-
+		temp2 = &temp3;
 		for (i = 0; i < x; i++)
 		{
 			temp2 = temp2->prev;
 		}
 
+		temp3 = *temp2;
 		DoubleLinkedListDelete(list, temp2);
 
-		y--;
 
-		if(y == 0)
-		{
-			list->head = (DLCLData*)NULL;
-		}
 
 	}
 
