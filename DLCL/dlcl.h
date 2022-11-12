@@ -28,6 +28,6 @@ void DoubleLinkedListCreate(DLL* list);
 void DoubleLinkedListInsert(DLL* list, int_least8_t new_data);
 void DoubleLinkedListPrint(const DLL* list);
 void DoubleLinkedListDelete(const DLL* list, DLCLData* temp);
-void FunctionPrintNthElement(DLL* list, int_least8_t x, int_least8_t y);
+void FunctionPrintNthElement(DLL* list, int_least8_t x);
 
 #endif /* DLCL_H_ */
