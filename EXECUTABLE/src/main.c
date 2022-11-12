@@ -40,11 +40,44 @@
 
 
  */
+ /*
+  * dlcl.h
+  *
+  *  Created on: Oct 21, 2021
+  *      Author: rtrk
+  */
+
+#ifndef DLCL_H_
+#define DLCL_H_
+
+#include <stdint.h>
+
+typedef struct DoubleLinkedCircularListData
+{
+	int_least8_t data;
+	struct DoubleLinkedCircularListData* prev;
+	struct DoubleLinkedCircularListData* next;
+
+} DLCLData;
+
+typedef struct DoubleLinkedList
+{
+	struct DoubleLinkedCircularListData* head;
+	struct DoubleLinkedCircularListData* tail;
+} DLL;
+
+void DoubleLinkedListCreate(DLL* list);
+void DoubleLinkedListInsert(DLL* list, int_least8_t new_data);
+void DoubleLinkedListPrint(const DLL* list);
+void DoubleLinkedListDelete(const DLL* list, DLCLData* temp);
+void FunctionPrintNthElement(DLL* list, int_least8_t x);
+
+#endif /* DLCL_H_ */
 
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "dlcl.h"
+
 
 #include <inttypes.h>
 
@@ -82,13 +115,21 @@ int main()
 */
 	printf("**********TEST GLAVNE FUNKCIJE**********\n");
 	DoubleLinkedListInsert(&list,2);
+	DoubleLinkedListDelete(&list, list.head);
+	DoubleLinkedListPrint(&list);
+
+
+	printf("**********TEST GLAVNE FUNKCIJE**********\n");
+
+
 	DoubleLinkedListInsert(&list,3);
 	DoubleLinkedListInsert(&list,4);
 	DoubleLinkedListInsert(&list,9);
 	DoubleLinkedListInsert(&list,1);
 	DoubleLinkedListInsert(&list,5);
 	DoubleLinkedListPrint(&list);
-	FunctionPrintNthElement(&list,5,6);
+	printf("**********TEST1**********\n");
+	FunctionPrintNthElement(&list,3);
 	DoubleLinkedListPrint(&list);
 
 	printf("**********TEST1**********\n");
@@ -114,8 +155,18 @@ int main()
 	printf("**********TEST4**********\n");
 	printf("Brisanje elemenata iz liste!\n");
 	DoubleLinkedListDelete(&list, list.head);
+	printf("lista!\n");
 	DoubleLinkedListPrint(&list);
 
+	printf("Brisanje elemenata iz liste!\n");
+	DoubleLinkedListDelete(&list, list.tail);
+	printf("lista!\n");
+	DoubleLinkedListPrint(&list);
+
+	printf("Brisanje elemenata iz liste!\n");
+	DoubleLinkedListDelete(&list, list.head->next);
+	printf("lista!\n");
+	DoubleLinkedListPrint(&list);
 
 
 
